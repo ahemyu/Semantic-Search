@@ -5,17 +5,8 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 nltk.download('stopwords')
 
-
-
 file_path = '../data/Semantic_Search_Test_Set_Electronic_Devices.csv'
 df = pd.read_csv(file_path, delimiter=';')
-
-## get basic overview of data 
-# print(df.head())
-# print(df.dtypes)
-# print(df.isnull().sum())
-## No missing values
-
 
 # drop the id and quantity columns as they don't provide any meaningful semantic information
 df.drop(columns=['id', 'quantity'], inplace=True)
