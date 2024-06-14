@@ -4,3 +4,6 @@ task.txt
 
 #directories
 venv/
+qdrant_storage/
+src/__pycache__
+src/flagged
