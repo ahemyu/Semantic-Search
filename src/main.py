@@ -19,7 +19,7 @@ def search_products(query):
         'Category': res['productCategory'],
         'Specifications': res['specifications']
     } for res in results]
-    # Convert list of dicts to DataFrame
+    
     return pd.DataFrame(data)
 
 iface = gr.Interface(

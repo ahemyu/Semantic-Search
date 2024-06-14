@@ -7,11 +7,12 @@ def load_model(model_name):
     
     return SentenceTransformer(model_name)
 
-def generate_embeddings(file_path, model):
-    """Generate embeddings by combining text columns and encoding ."""
-    df = pd.read_csv(file_path, delimiter=';')
-    combined_text = df['productName'] + " "+ df['Product_Category'] + " " + df['Description'] + " " + df['Marketing_Text'] + " " + df['Typical_Use_Cases'] + " " + df['Technical_Attributes'] # maybe add name and catgeory as well? 
-    df['embeddings'] = combined_text.apply(lambda x: model.encode(x, convert_to_tensor=True).tolist())
+def generate_embeddings(clean_file_path, model):
+    """Generate embeddings of the combined text columns"""
+    
+    df = pd.read_csv(clean_file_path, delimiter=';')
+    df['embeddings'] = df['combined'].apply(lambda x: model.encode(x, convert_to_tensor=True).tolist())
+    
     return df
 
 def run_embedding(file_path, model_name, vector_dim, collection_name, db_url):

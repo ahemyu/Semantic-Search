@@ -16,6 +16,7 @@ class SemanticSearch:
 
     def search(self, query_text, limit=10):
         """Perform semantic search and return the 'limit' most similar items."""
+        
         query_vector = self.generate_query_vector(query_text)
         search_params = models.SearchParams(hnsw_ef=128, exact=False)
         search_results = self.client.search(
@@ -29,6 +30,7 @@ class SemanticSearch:
 
     def format_results(self, search_results):
         """Format search results for frontend display to user"""
+        
         formatted_results = []
         for scored_point in search_results:
             formatted_result = {
@@ -37,16 +39,5 @@ class SemanticSearch:
                 'specifications': scored_point.payload.get('Specifications', 'No specifications available')
             }
             formatted_results.append(formatted_result)
+            
         return formatted_results
-
-# Configuration and example usage
-if __name__ == "__main__":
-    model_name = 'sentence-transformers/all-MiniLM-L6-v2'
-    qdrant_host = 'localhost'
-    qdrant_port = 6333
-    collection_name = 'electronic_products'
-
-    searcher = SemanticSearch(model_name, qdrant_host, qdrant_port, collection_name)
-    query_text = "powerful gaming laptop with high resolution display"
-    top_k_results = searcher.search(query_text, limit=5)
-    print(top_k_results)
