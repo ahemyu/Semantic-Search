@@ -1,6 +1,6 @@
 # Semantic-Search
 
-This project implements a semantic search engine for electronic devices using sentence transformers for embeddings and Qdrant as the vector database. It is designed to showcase how to preprocess, embed, and search electronic device data efficiently.
+This project implements a semantic search engine for electronic devices using the sentence transformer **all-MiniLM-L6-v2** from Huggingface for embeddings and Qdrant as the vector database. 
 
 ## System Requirements
 
