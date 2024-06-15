@@ -7,3 +7,4 @@ venv/
 qdrant_storage/
 src/__pycache__
 src/flagged
+src/qdrant_storage
