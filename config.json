@@ -1,0 +1,9 @@
+{
+    "data_file_path": "../data/Semantic_Search_Test_Set_Electronic_Devices.csv",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "vector_dimension": 384,
+    "collection_name": "electronic_products",
+    "qdrant_host": "localhost",
+    "qdrant_port": 6333,
+    "search_limit": 5
+}
