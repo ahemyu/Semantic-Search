@@ -68,7 +68,10 @@ On Windows (Command Prompt):
 set MODEL_NAME=model_name
 ```
 Replace 'model_name' with one of the model names from the list above. 
-If you don't set an environment variable yourself the model **all-MiniLM-L6-v2** will be used by default
+If you don't set an environment variable yourself the model **all-MiniLM-L6-v2** will be used by default.
+
+**Note**: 
+If you want to try different models consider deleting the collection in Qdrant first (very easy through the Web UI), as the dimensions of the embeddings differ per model. 
 
 ### Step 5: Launch the application
 Go into the src directory and run the main.py like so (might take a while until it runs):  
