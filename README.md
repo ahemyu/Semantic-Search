@@ -33,7 +33,7 @@ On Windows:
 python3 -m venv venv
 .\venv\Scripts\activate
 ```
-The install the required dependencies like so: 
+Then install the required dependencies like so: 
 
 ```bash
 pip install -r requirements.txt
