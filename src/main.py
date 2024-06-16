@@ -66,8 +66,10 @@ iface = gr.Interface(
     fn=search_products,
     inputs="text",
     outputs="dataframe",
-    title="Product Search",
-    description="Enter your query"
+    title=f"Using Model: {config['model_name']}",
+    description="Enter your query",
+    allow_flagging='never'
+
 )
 # launch the gradio app
 iface.launch()
