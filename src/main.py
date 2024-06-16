@@ -1,3 +1,4 @@
+import os
 import gradio as gr
 import pandas as pd
 import json
@@ -5,9 +6,26 @@ from data_preprocessing import preprocess_data
 from embedding import run_embedding
 from search import SemanticSearch
 
+# choosable models for the embeddings
+model_dimensions = {
+    'all-MiniLM-L12-v2': 384,
+    'all-MiniLM-L6-v2': 384,
+    'msmarco-distilbert-base-v3': 768,
+    'nli-mpnet-base-v2': 768
+}
+
 def load_config():
+    """Load configuration settings from environment variables or fall back to config.json."""
+    
     with open('../config.json', 'r') as config_file:
-        return json.load(config_file)
+        config = json.load(config_file)
+    
+    # override model name with environment variable if set, and set vector dimension accordingly
+    model_name = os.getenv('MODEL_NAME', config['model_name'])
+    config['model_name'] = model_name
+    config['vector_dimension'] = model_dimensions.get(model_name, config['vector_dimension'])
+    
+    return config
 
 config = load_config()
 
