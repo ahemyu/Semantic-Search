@@ -36,7 +36,3 @@ def run_embedding(file_path, model_name, vector_dim, collection_name, db_url):
             payload={'Product Name': row['productName'], 'Product Category': row['Product_Category'], 'Specifications': row['Technical_Attributes']}
         )
         client.upsert(collection_name=collection_name, points=[point])
-
-if __name__ == "__main__":
-    
-    run_embedding('../data/cleaned_electronic_devices.csv', 'sentence-transformers/all-MiniLM-L6-v2', 384, 'electronic_products', "http://localhost:6333")

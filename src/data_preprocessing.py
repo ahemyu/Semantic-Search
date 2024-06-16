@@ -40,7 +40,4 @@ def preprocess_data(file_path):
     
     return cleaned_file_path
 
-if __name__ == "__main__":
-    preprocess_data('../data/Semantic_Search_Test_Set_Electronic_Devices.csv')
-
 
