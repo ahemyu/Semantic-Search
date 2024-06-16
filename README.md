@@ -20,6 +20,21 @@ cd Semantic-Search
 ```
 ### Step 2: Install Python Dependencies
 
+Please make sure that you are using python 3.10 as some of the packages won't work with higher/lower versions. 
+Also I recommend using a virtual environment like so:
+
+On Linux/Mac: 
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+On Windows: 
+```bash
+python3 -m venv venv
+.\venv\Scripts\activate
+```
+The install the required dependencies like so: 
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -37,7 +52,7 @@ After that the Database will be accessible via a Web UI at:  http://localhost:63
 
 
 ### Step 4: Launch the application
-Go into the src directory and run the main.py like so:  
+Go into the src directory and run the main.py like so (might take a while until it runs):  
 
 ```bash
 cd src
