@@ -15,7 +15,7 @@ This project implements a semantic search engine for electronic devices using mo
 Clone this repository to your local machine using Git:
 
 ```bash
-git clone git@github.com:ahemyu/Semantic-Search.git
+git https://github.com/ahemyu/Semantic-Search.git
 cd Semantic-Search
 ```
 ### Step 2: Install Python Dependencies
@@ -41,14 +41,38 @@ pip install -r requirements.txt
 
 ### Step 3: Start Qdrant Vector Database
 
-Pull the latest Qdrant docker image and start the Qdrant server:
+**For Linux/macOS**
+
+Pull the latest Qdrant Docker image and start the Qdrant server:
+
 ```bash
 docker pull qdrant/qdrant
 docker run -p 6333:6333 -p 6334:6334 \
     -v $(pwd)/qdrant_storage:/qdrant/storage:z \
     qdrant/qdrant
 ```
-After that the Database will be accessible via a Web UI at:  http://localhost:6333/dashboard
+**For Windows**
+
+Pull the latest Qdrant Docker image and start the Qdrant server. Ensure Docker Desktop is running and the directory is shared:
+
+- Ensure Docker Desktop is running: Start Docker Desktop from the Start menu or Windows search bar.
+
+- Share the directory:
+    - Open Docker Desktop.
+    - Go to Settings -> Resources -> File Sharing.
+    - Add your project directory (the directory where the project is cloned) and apply the changes.
+
+Run the Docker command in Command Prompt:
+```bash
+docker pull qdrant/qdrant
+docker run -p 6333:6333 -p 6334:6334 -v %cd%/qdrant_storage:/qdrant/storage qdrant/qdrant
+```
+Or in PowerShell:
+```bash
+    docker pull qdrant/qdrant
+    docker run -p 6333:6333 -p 6334:6334 -v ${PWD}/qdrant_storage:/qdrant/storage qdrant/qdrant
+```
+After that, the database will be accessible via a Web UI at: http://localhost:6333/dashboard
 
 ### Step 5: Choose a model (optional) 
 You can select the model to use by setting the `MODEL_NAME` environment variable. Based on your selection, the application will automatically configure the appropriate vector dimension.
@@ -78,7 +102,7 @@ Go into the src directory and run the main.py like so (might take a while until 
 
 ```bash
 cd src
-python3 main.py
+python main.py
 ```
 
 Now at http://127.0.0.1:7860/ there will be a simple Interface where a search query can be put in 
