@@ -28,6 +28,7 @@ The data/ directory serves as the repository for all datasets and processed data
     The script focuses on columns with descriptive text, combining them into a single column to prepare for embedding. Once processed, the data is saved back to a new CSV file, cleaned_electronic_devices.csv, in the data directory, optimized for subsequent embedding and search functionalities.
 
 - **embedding.py** :  
+
     This script is essential for the generation and management of embeddings used in the semantic search system.  
     It utilizes the SentenceTransformer library to load a pre-trained model and create embeddings from the preprocessed text. The functions within the script perform the following operations:
 
@@ -36,6 +37,7 @@ The data/ directory serves as the repository for all datasets and processed data
     - run_embedding: This main function orchestrates the creation of a new collection in the Qdrant vector database, uploads the generated embeddings, and associates them with their respective payloads, which include product names, categories, and technical attributes. It ensures that if the collection does not exist in the database, it is created with the appropriate vector configuration set for cosine distance measurement.  
 
 - **search.py**:   
+
     This script handles the semantic search functionality of the project, utilizing both Sentence Transformers for generating query vectors and the Qdrant client for querying the vector database.  
     The key components include:  
 
@@ -45,6 +47,7 @@ The data/ directory serves as the repository for all datasets and processed data
     - format_results: Processes the raw search results from Qdrant to format them in a more user-friendly manner, presenting essential details like product category, name, and specifications.  
 
 - **main.py**:  
+
     This script serves as the main entry point for the Semantic Search application, tying together data preprocessing, embedding generation, and search functionalities into a simple user interface.   
     The operations are orchestrated through several key functions:  
 
@@ -54,6 +57,7 @@ The data/ directory serves as the repository for all datasets and processed data
     - Gradio Interface: The user interface is set up using Gradio, allowing users to input their search queries and view the results in a tabular format.  
 ### root directory 
 - **config.json**:  
+
     Stores settings that dictate how the application processes and queries data.  
     The parameters included in this configuration file are:
 
@@ -64,6 +68,7 @@ The data/ directory serves as the repository for all datasets and processed data
     - qdrant_host and qdrant_port: These settings specify the network address and port for accessing the Qdrant vector database, allowing the application to connect and perform operations on the database.
     - search_limit: Sets the default number of results to return for each search query, which can be adjusted to display more or fewer results as needed.
 - **requirements.txt**:  
+
     The requirements.txt file is used for managing the Python package dependencies required by the Semantic Search project.  
     It lists all the libraries and their specific versions to ensure that the environment is consistent and the application is compatible with python 3.10 as specified.   
 ## Setup Instructions
