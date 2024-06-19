@@ -54,7 +54,8 @@ The data/ directory serves as the repository for all datasets and processed data
     - Gradio Interface: The user interface is set up using Gradio, allowing users to input their search queries and view the results in a tabular format.  
 ### root directory 
 - **config.json**:  
-    Stores essential settings that dictate how the application processes and queries data. The parameters included in this configuration file are:
+    Stores settings that dictate how the application processes and queries data.  
+    The parameters included in this configuration file are:
 
     - data_file_path: Specifies the path to the dataset used for generating embeddings. This ensures that the application knows where to fetch the raw data from within the project structure.
     - model_name: Defines the model used by Sentence Transformers to generate embeddings. This setting can be dynamically overridden by an environment variable if needed.
