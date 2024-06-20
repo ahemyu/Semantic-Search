@@ -7,7 +7,7 @@ This project implements a semantic search engine for electronic devices using mo
 - [File Descriptions](#file-descriptions)
   - [data/](#data)
   - [src/](#src)
-  - [root directory](#root-directory)
+  - [root](#root)
 - [Setup Instructions](#setup-instructions)
   - [Step 1: Clone the Repository](#step-1-clone-the-repository)
   - [Step 2: Install Python Dependencies](#step-2-install-python-dependencies)
