@@ -2,6 +2,19 @@
 
 This project implements a semantic search engine for electronic devices using models from the sentence-transformers library from Huggingface for embeddings and Qdrant as the vector database. 
 
+## Table of Contents
+- [System Requirements](#system-requirements)
+- [File Descriptions](#file-descriptions)
+  - [data/](#data)
+  - [src/](#src)
+  - [root directory](#root-directory)
+- [Setup Instructions](#setup-instructions)
+  - [Step 1: Clone the Repository](#step-1-clone-the-repository)
+  - [Step 2: Install Python Dependencies](#step-2-install-python-dependencies)
+  - [Step 3: Start Qdrant Vector Database](#step-3-start-qdrant-vector-database)
+  - [Step 4: Choose a model (optional)](#step-4-choose-a-model-optional)
+  - [Step 5: Launch the application](#step-5-launch-the-application)
+
 ## System Requirements
 
 - Python 3.10
@@ -13,7 +26,7 @@ This project implements a semantic search engine for electronic devices using mo
 
 The data/ directory serves as the repository for all datasets and processed data files used by the Semantic Search application. 
 
-### src/
+### src/  
 - **data_preprocessing.py**:  
 
     This script is responsible for loading and preprocessing the data necessary for the semantic search.  
@@ -55,7 +68,7 @@ The data/ directory serves as the repository for all datasets and processed data
     - setup_environment: Handles the preprocessing of the dataset, generates embeddings with the chosen model, and initializes the semantic search system with the specified Qdrant vector database settings.
     - search_products: Defines the actual search functionality that is exposed to the user through a Gradio interface. It utilizes the SemanticSearch instance to execute queries and formats the results into a readable format.
     - Gradio Interface: The user interface is set up using Gradio, allowing users to input their search queries and view the results in a tabular format.  
-### root directory 
+### root  
 - **config.json**:  
 
     Stores settings that dictate how the application processes and queries data.  
@@ -137,7 +150,7 @@ Or in PowerShell:
 ```
 After that, the database will be accessible via a Web UI at: http://localhost:6333/dashboard
 
-### Step 5: Choose a model (optional) 
+### Step 4: Choose a model (optional) 
 You can select the model to use by setting the `MODEL_NAME` environment variable. Based on your selection, the application will automatically configure the appropriate vector dimension.
 These are the models you can choose from: 
 
