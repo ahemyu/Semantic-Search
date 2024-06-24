@@ -92,8 +92,8 @@ Clone this repository to your local machine using Git:
 
 ```bash
 git https://github.com/ahemyu/Semantic-Search.git
-```
 cd Semantic-Search
+```
 ### Step 2: Install Python Dependencies
 
 Please make sure that you are using python 3.10 as some of the packages won't work with higher/lower versions. 
