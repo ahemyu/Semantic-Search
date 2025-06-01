@@ -9,3 +9,5 @@ src/__pycache__
 src/flagged
 src/qdrant_storage
 data/cleaned_electronic_devices.csv
+
+.env
