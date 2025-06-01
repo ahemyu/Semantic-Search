@@ -148,7 +148,7 @@ Or in PowerShell:
 After that, the database will be accessible via a Web UI at: http://localhost:6333/dashboard
 
 ### Step 4: Choose a model (optional) 
-You can select the model to use by setting the `MODEL_NAME` environment variable. Based on your selection, the application will automatically configure the appropriate vector dimension. The best performing model according to research and my own testing is **multi-qa-mpnet-base-cos-v1** 
+You can select the model to use by setting the `MODEL_NAME` environment variable. Based on your selection, the application will automatically configure the appropriate vector dimension.  
 These are the models you can choose from: 
 
 - all-MiniLM-L12-v2  (384 dimensional embeddings)
@@ -169,7 +169,7 @@ Replace 'model_name' with one of the model names from the list above.
 If you don't set an environment variable yourself the model **all-MiniLM-L6-v2** will be used by default.
 
 **Note**: 
-If you want to try different models consider deleting the collection in Qdrant first (very easy through the Web UI), as the dimensions of the embeddings differ per model. 
+The best performing model according to research and my own testing is **multi-qa-mpnet-base-cos-v1**
 
 ### Step 5: Launch the application
 Go into the src directory and run the main.py like so (might take a while until it runs):  
