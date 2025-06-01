@@ -69,50 +69,119 @@ def setup_environment() -> tuple[SemanticSearch, LLMSearchAgent | None]:
 searcher, llm_agent = setup_environment()
 
 
-def search_products(query: str, use_llm: bool = True) -> str | pd.DataFrame:
-    """Search for products using either direct search or LLM-enhanced search"""
+def semantic_search_only(query: str, limit: int = 5) -> pd.DataFrame:
+    """Perform semantic search and return results as DataFrame"""
+    results = searcher.search(query, limit=limit)
+    return pd.DataFrame(results)
+
+
+def llm_search(query: str) -> str:
+    """Perform LLM-enhanced search"""
+    if not llm_agent:
+        return "LLM functionality is not available. Please provide a Gemini API key."
+    return llm_agent.search_and_respond(query)
+
+
+# Create Gradio interface with Blocks for more control
+with gr.Blocks(title="Electronic Products Search") as iface:
+    gr.Markdown(f"# Electronic Products Search\n### Embedding Model: {config['model_name']}")
+    if llm_agent:
+        gr.Markdown("### LLM: gemini-2.5-flash-preview-05-20")
     
-    if use_llm and llm_agent:
-        # Use LLM for natural language response
-        return llm_agent.search_and_respond(query)
+    # Add toggle only if LLM is available
+    if llm_agent:
+        use_llm = gr.Checkbox(
+            label="Use AI Assistant", 
+            value=True,
+            info="Toggle between semantic search results and AI-powered responses"
+        )
     else:
-        # Fall back to direct search
-        results = searcher.search(query, limit=config.get('search_limit', 5))
-        return pd.DataFrame(results)
-
-
-# Create Gradio interface
-if llm_agent:
-    # Semantic Search with LLM
-    iface = gr.Interface(
-        fn=lambda query: search_products(query, use_llm=True),
-        inputs=gr.Textbox(
-            label="What are you looking for?",
-            lines=2
-        ),
-        outputs=gr.Textbox(label="Assistant Response", lines=10),
-        title=f"AI Shopping Assistant",
-        description="Ask me about electronic products and I'll help you find what you need!",
-        examples=[
-            ["I am looking for a gaming laptop"],
-            ["I need a laptop to do light work with."],
-            ["cheap smartphone"],
-            ["High performance desktop pc"],
-        ],
-        allow_flagging='never'
+        use_llm = gr.Checkbox(
+            label="Use AI Assistant (Unavailable - No API Key)", 
+            value=False,
+            interactive=False,
+            info="Gemini API key required for AI Assistant"
+        )
+    
+    with gr.Row():
+        with gr.Column():
+            query_input = gr.Textbox(
+                label="Search Query",
+                placeholder="Enter what you're looking for...",
+                lines=2
+            )
+            
+            # Slider for result limit (only shown for semantic search)
+            limit_slider = gr.Slider(
+                minimum=1,
+                maximum=20,
+                value=5,
+                step=1,
+                label="Number of Results",
+                visible=not (llm_agent and use_llm.value)
+            )
+            
+            search_btn = gr.Button("Search", variant="primary")
+            
+    with gr.Row():
+        # Output components
+        semantic_output = gr.DataFrame(
+            label="Search Results",
+            visible=not (llm_agent and use_llm.value)
+        )
+        llm_output = gr.Textbox(
+            label="AI Assistant Response",
+            lines=15,
+            visible=(llm_agent and use_llm.value)
+        )
+    
+    def update_interface(use_llm_value):
+        """Update interface based on toggle state"""
+        if use_llm_value and llm_agent:
+            return {
+                limit_slider: gr.update(visible=False),
+                semantic_output: gr.update(visible=False),
+                llm_output: gr.update(visible=True)
+            }
+        else:
+            return {
+                limit_slider: gr.update(visible=True),
+                semantic_output: gr.update(visible=True),
+                llm_output: gr.update(visible=False)
+            }
+    
+    def perform_search(query, use_llm_value, limit):
+        """Perform search based on selected mode"""
+        if use_llm_value and llm_agent:
+            result = llm_search(query)
+            return {
+                semantic_output: gr.update(value=None),
+                llm_output: gr.update(value=result)
+            }
+        else:
+            result = semantic_search_only(query, limit)
+            return {
+                semantic_output: gr.update(value=result),
+                llm_output: gr.update(value=None)
+            }
+    
+    # Event handlers
+    use_llm.change(
+        update_interface,
+        inputs=[use_llm],
+        outputs=[limit_slider, semantic_output, llm_output]
     )
-else:
-    # Just semantic search
-    iface = gr.Interface(
-        fn=lambda query, limit: search_products(query, use_llm=False),
-        inputs=[
-            gr.Textbox(label="Search Query", placeholder="Enter your query"),
-            gr.Slider(minimum=1, maximum=20, value=5, step=1, label="Number of Results")
-        ],
-        outputs="dataframe",
-        title=f"Semantic Search (Using Model: {config['model_name']})",
-        description="Enter your query to search for products",
-        allow_flagging='never'
+    
+    search_btn.click(
+        perform_search,
+        inputs=[query_input, use_llm, limit_slider],
+        outputs=[semantic_output, llm_output]
+    )
+    
+    query_input.submit(
+        perform_search,
+        inputs=[query_input, use_llm, limit_slider],
+        outputs=[semantic_output, llm_output]
     )
 
 iface.launch()

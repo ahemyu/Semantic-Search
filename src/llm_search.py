@@ -12,8 +12,7 @@ class LLMSearchAgent:
         self.llm = ChatGoogleGenerativeAI(
             model="gemini-2.5-flash-preview-05-20",
             google_api_key=api_key,
-            temperature=0.1,
-            max_output_tokens=1024
+            max_output_tokens=4000
         )
         self.agent_executor = self._create_agent()
 
@@ -65,7 +64,7 @@ class LLMSearchAgent:
                 "response based on the search results. Always search first before answering questions "
                 "about products. Format your responses in a clear, friendly manner and highlight "
                 "the most relevant aspects based on what the user is looking for." 
-                "Always suggest an alternative if you find any that make sense in your search results."
+                "Always suggest an alternative if you find any that somehow fit the user's intent."
             ),
             ("human", "{input}"),
             MessagesPlaceholder("agent_scratchpad"),
