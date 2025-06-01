@@ -148,13 +148,14 @@ Or in PowerShell:
 After that, the database will be accessible via a Web UI at: http://localhost:6333/dashboard
 
 ### Step 4: Choose a model (optional) 
-You can select the model to use by setting the `MODEL_NAME` environment variable. Based on your selection, the application will automatically configure the appropriate vector dimension.
+You can select the model to use by setting the `MODEL_NAME` environment variable. Based on your selection, the application will automatically configure the appropriate vector dimension. The best performing model according to research and my own testing is **multi-qa-mpnet-base-cos-v1** 
 These are the models you can choose from: 
 
 - all-MiniLM-L12-v2  (384 dimensional embeddings)
 - all-MiniLM-L6-v2  (384 dimensional embeddings)
 - msmarco-distilbert-base-v3  (768 dimensional embeddings)
 - nli-mpnet-base-v2  (768 dimensional embeddings)
+- multi-qa-mpnet-base-cos-v1 (768 dimensional embeddings)
 
 On Linux/Mac:
 ```bash
