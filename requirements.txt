@@ -1,5 +1,5 @@
 pandas==2.2.2
 sentence-transformers==3.0.1
-gradio==4.36.1
+gradio==4.44.1
 qdrant-client==1.9.1
 nltk==3.8.1

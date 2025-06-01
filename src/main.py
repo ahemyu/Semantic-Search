@@ -12,7 +12,9 @@ model_dimensions = {
     'all-MiniLM-L12-v2': 384,
     'all-MiniLM-L6-v2': 384,
     'msmarco-distilbert-base-v3': 768,
-    'nli-mpnet-base-v2': 768
+    'nli-mpnet-base-v2': 768,
+    "multi-qa-mpnet-base-cos-v1": 768,
+    "all-mpnet-base-v2": 768,
 }
 
 def load_config() -> Dict[str, Any]:
@@ -39,10 +41,10 @@ def setup_environment() -> SemanticSearch:
 
 searcher = setup_environment()
 
-def search_products(query: str) -> pd.DataFrame:
+def search_products(query: str, limit: int = 5) -> pd.DataFrame:
     """Defines the search functionality for Gradio interface"""
     
-    results = searcher.search(query, limit=config["search_limit"])
+    results = searcher.search(query, limit=limit)
     data = [{
         'Name': res['productName'],
         'Category': res['productCategory'],
@@ -53,7 +55,10 @@ def search_products(query: str) -> pd.DataFrame:
 
 iface = gr.Interface(
     fn=search_products,
-    inputs="text",
+    inputs=[
+        gr.Textbox(label="Search Query", placeholder="Enter your query"),
+        gr.Slider(minimum=1, maximum=20, value=5, step=1, label="Number of Results")
+    ],
     outputs="dataframe",
     title=f"Using Model: {config['model_name']}",
     description="Enter your query",
