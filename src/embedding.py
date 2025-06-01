@@ -31,9 +31,10 @@ def run_embedding(file_path: str, model_name: str, vector_dim: int, collection_n
         print(f"Some Error occurred while creating collection: {e}")
     
     for index, row in df.iterrows():
+        payload = row.drop(['embeddings']).to_dict()
         point = models.PointStruct(
             id=index,
             vector=row['embeddings'],
-            payload={'Product Name': row['productName'], 'Product Category': row['Product_Category'], 'Specifications': row['Technical_Attributes']}
+            payload=payload
         )
         client.upsert(collection_name=collection_name, points=[point])

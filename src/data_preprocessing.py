@@ -14,6 +14,8 @@ def preprocess_data(file_path: str) -> str:
     """ Function to clean up the data such that it can be fed into the embedding model"""
     
     df = pd.read_csv(file_path, delimiter=',')
+
+    df.drop(columns=['id'], inplace=True)
     
     def clean_up_text(text: str) -> str:
         """ Basic cleaning of data like removing HTML tags and lemmatization"""

@@ -44,14 +44,8 @@ searcher = setup_environment()
 def search_products(query: str, limit: int = 5) -> pd.DataFrame:
     """Defines the search functionality for Gradio interface"""
     
-    results = searcher.search(query, limit=limit)
-    data = [{
-        'Name': res['productName'],
-        'Category': res['productCategory'],
-        'Specifications': res['specifications']
-    } for res in results]
-    
-    return pd.DataFrame(data)
+    results = searcher.search(query, limit=limit)    
+    return pd.DataFrame(results)
 
 iface = gr.Interface(
     fn=search_products,

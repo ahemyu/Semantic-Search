@@ -20,25 +20,13 @@ class SemanticSearch:
         
         query_vector = self.generate_query_vector(query_text)
         search_params = models.SearchParams(hnsw_ef=128, exact=False)
-        search_results = self.client.search(
+        search_results: List[models.ScoredPoint] = self.client.search(
             collection_name=self.collection_name,
             query_vector=query_vector,
             search_params=search_params,
             limit=limit,
             with_payload=True,
         )
-        return self.format_results(search_results)
 
-    def format_results(self, search_results: List[models.ScoredPoint]) -> List[Dict[str, str]]:
-        """Format search results for frontend display to user"""
-
-        formatted_results = []
-        for scored_point in search_results:
-            formatted_result = {
-                'productCategory': scored_point.payload['Product Category'],
-                'productName': scored_point.payload['Product Name'],
-                'specifications': scored_point.payload.get('Specifications', 'No specifications available')
-            }
-            formatted_results.append(formatted_result)
-            
-        return formatted_results
+        # Filter out the 'combined' field from the payload
+        return [{k: v for k, v in scored_point.payload.items() if k != "combined"} for scored_point in search_results]
