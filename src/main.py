@@ -81,7 +81,6 @@ def setup_environment() -> SemanticSearch:
             f"http://{config['qdrant_host']}:{config['qdrant_port']}",
         )
 
-        # Update the config file with the new model name
         config_path = "../config.json"
         try:
             with open(config_path, "r+") as f:
@@ -197,7 +196,7 @@ with gr.Blocks(title="Electronic Products Search") as iface:
         query_input = gr.Textbox(
             label="Search Query",
             placeholder="Enter what you're looking for...",
-            lines=2,
+            lines=1,
             scale=4,
         )
         search_btn = gr.Button("Search", variant="primary", scale=1)
@@ -210,7 +209,6 @@ with gr.Blocks(title="Electronic Products Search") as iface:
         label="Number of Results",
         visible=False,
     )
-
     # --- UI Logic ---
 
     def update_ui_mode(use_llm_value):
@@ -227,15 +225,14 @@ with gr.Blocks(title="Electronic Products Search") as iface:
         """Main function to route search requests."""
         if use_llm_value and is_llm_available:
             response, updated_history = llm_search(query, selected_llm, history)
-            return response, pd.DataFrame(), updated_history
+            return response, pd.DataFrame(), updated_history, ""
         else:
             results_df = semantic_search_only(query, limit)
-            return "", results_df, history  # History remains unchanged
+            return "", results_df, history, ""  # History remains unchanged
 
     def clear_chat():
         """Clears the chat history and output when switching models."""
         return [], ""
-
     # --- Event Handlers ---
 
     if is_llm_available:
@@ -262,7 +259,29 @@ with gr.Blocks(title="Electronic Products Search") as iface:
             llm_selector,
             chat_history_state,
         ],
-        outputs=[llm_output, semantic_output, chat_history_state],
+        outputs=[
+            llm_output,
+            semantic_output,
+            chat_history_state,
+            query_input
+        ],
+    )
+    # allows pressing Enter to submit the search
+    query_input.submit(
+        fn=handle_search,
+        inputs=[
+            query_input,  
+            use_llm,      
+            limit_slider, 
+            llm_selector,
+            chat_history_state,
+        ],
+        outputs=[
+            llm_output,
+            semantic_output,
+            chat_history_state,
+            query_input
+        ],
     )
 
 iface.launch()
