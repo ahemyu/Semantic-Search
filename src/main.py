@@ -59,16 +59,46 @@ config = load_config()
 
 
 def setup_environment() -> SemanticSearch:
-    """Preprocess data, generate embeddings, and initialize the search engine."""
-    # TODO: Generalize this such taht it only creates a new colletion and uploads evrything if a new model is chosen (save chosen model in config.json)
-    # cleaned_data_path = preprocess_data(config["data_file_path"])
-    # run_embedding(
-    #     cleaned_data_path,
-    #     config["model_name"],
-    #     config["vector_dimension"],
-    #     config["collection_name"],
-    #     f"http://{config['qdrant_host']}:{config['qdrant_port']}",
-    # )
+    """
+    Preprocess data and generate embeddings if the model has changed,
+    then initialize the search engine.
+    """
+    last_used_model = config.get("last_used_model", "")
+    current_model = config["model_name"]
+
+    if last_used_model != current_model:
+        print(
+            f"Embedding model changed from '{last_used_model}' to '{current_model}'."
+        )
+        print("Regenerating embeddings and creating new collection...")
+
+        cleaned_data_path = preprocess_data(config["data_file_path"])
+        run_embedding(
+            cleaned_data_path,
+            current_model,
+            config["vector_dimension"],
+            config["collection_name"],
+            f"http://{config['qdrant_host']}:{config['qdrant_port']}",
+        )
+
+        # Update the config file with the new model name
+        config_path = "../config.json"
+        try:
+            with open(config_path, "r+") as f:
+                config_data = json.load(f)
+                config_data["last_used_model"] = current_model
+                f.seek(0)
+                json.dump(config_data, f, indent=4)
+                f.truncate()
+            print(
+                f"Configuration updated. Current embedding model is '{current_model}'."
+            )
+        except Exception as e:
+            print(f"Error updating config file '{config_path}': {e}")
+
+    else:
+        print(f"Using existing collection with model '{current_model}'.")
+
     return SemanticSearch(
         config["model_name"],
         config["qdrant_host"],
