@@ -60,7 +60,7 @@ config = load_config()
 
 def setup_environment() -> SemanticSearch:
     """
-    Preprocess data and generate embeddings if the model has changed,
+    Preprocess data and generate embeddings if the embedding model has changed,
     then initialize the search engine.
     """
     last_used_model = config.get("last_used_model", "")

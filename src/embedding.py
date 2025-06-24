@@ -18,8 +18,6 @@ def generate_embeddings(clean_file_path: str, model: SentenceTransformer) -> pd.
 def run_embedding(file_path: str, model_name: str, vector_dim: int, collection_name: str, db_url: str) -> None:
     """Create collection in Db and upload the embeddings along with their payloads"""
     
-    model = load_model(model_name)
-    df = generate_embeddings(file_path, model)
     client = QdrantClient(url=db_url)
     vector_config = models.VectorParams(size=vector_dim, distance=models.Distance.COSINE)
     
@@ -30,6 +28,9 @@ def run_embedding(file_path: str, model_name: str, vector_dim: int, collection_n
     except Exception as e:
         print(f"Some Error occurred while creating collection: {e}")
     
+    model = load_model(model_name)
+    df = generate_embeddings(file_path, model)
+
     for index, row in df.iterrows():
         payload = row.drop(['embeddings']).to_dict()
         point = models.PointStruct(

@@ -1,11 +1,7 @@
 import pandas as pd
 import re
 import nltk
-from typing import List, Set
 from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
-
-
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -24,11 +20,10 @@ def preprocess_data(file_path: str) -> str:
         text = re.sub('<.*?>', '', text)  # Remove HTML tags
         text = re.sub(r'[^a-zA-Z0-9\s]', '', text)  # Remove special chars
         
-        stop_words: Set[str] = set(stopwords.words('english')) 
+        stop_words: set[str] = set(stopwords.words('english')) 
         text = ' '.join([word for word in text.split() if word not in stop_words])  # Remove stopwords that don't provide any semantic information
-        
-        # lemmatizer = WordNetLemmatizer()
-        # text = ' '.join([lemmatizer.lemmatize(word) for word in text.split()])  # Lemmatization of the text
+
+        # lemmatization removed as it worsens performance
 
         return text
 
